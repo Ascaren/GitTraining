@@ -13,9 +13,9 @@
 ##########        BEGIN User part            ##########
 ##########       You can change it           ##########
 #######################################################
-CFLAGS = -Wall -g
-LDFLAGS =
-SOURCES = ../src/main.c ../src/person.c
+CFLAGS = -Wall -g -I../../Person/lib_person
+LDFLAGS = -L../../Person/lib_person -lperson
+SOURCES = ../src/main.c
 NAME = prog
 #######################################################
 ##########        END User part              ##########
@@ -29,11 +29,14 @@ OBJECTS = $(SOURCES:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJECTS)
+$(NAME): libperson $(OBJECTS)
 	$(CC) $(OBJECTS) $(LDFLAGS) -o $(NAME)
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) $< -o $@
+
+libperson:
+	make -C ../../Person/lib_person
 
 clean:
 	rm -f $(OBJECTS)
